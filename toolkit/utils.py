@@ -1,13 +1,16 @@
 import os
-import platform
 
 def clear_screen():
-    os.system("clear" if os.name == "posix" else "cls")
+    os.system("clear" if os.name != "nt" else "cls")
 
-def os_info():
-    return {
-        "OS": platform.system(),
-        "Version": platform.version(),
-        "Architecture": platform.machine(),
-        "Python": platform.python_version()
-    }
+def banner():
+    clear_screen()
+    print("""
+███████╗██╗  ██╗███████╗
+██╔════╝██║  ██║██╔════╝
+█████╗  ███████║█████╗
+██╔══╝  ██╔══██║██╔══╝
+███████╗██║  ██║███████╗
+
+j4f-cli-toolkit
+""")
