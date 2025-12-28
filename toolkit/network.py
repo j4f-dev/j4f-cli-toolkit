@@ -1,44 +1,39 @@
 import socket
 from toolkit.utils import Color
 
-def port_scan():
+def advanced_port_scan():
     target = input(Color.YELLOW + "Enter domain or IP: " + Color.RESET)
 
     try:
+        start_port = int(input(Color.YELLOW + "Start port: " + Color.RESET))
+        end_port = int(input(Color.YELLOW + "End port: " + Color.RESET))
+
         target_ip = socket.gethostbyname(target)
-        print(Color.CYAN + f"\nScanning {target} ({target_ip})...\n" + Color.RESET)
+        print(Color.CYAN + f"\nScanning {target} ({target_ip}) ports {start_port}-{end_port}\n" + Color.RESET)
 
-        common_ports = {
-            21: "FTP",
-            22: "SSH",
-            23: "TELNET",
-            25: "SMTP",
-            53: "DNS",
-            80: "HTTP",
-            110: "POP3",
-            143: "IMAP",
-            443: "HTTPS",
-            3306: "MySQL",
-            8080: "HTTP-ALT"
-        }
+        open_ports = []
 
-        open_ports = False
-
-        for port, service in common_ports.items():
+        for port in range(start_port, end_port + 1):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(0.5)
+            sock.settimeout(0.3)
 
             result = sock.connect_ex((target_ip, port))
             if result == 0:
-                print(Color.GREEN + f"[OPEN] Port {port} ({service})")
-                open_ports = True
+                open_ports.append(port)
+                print(Color.GREEN + f"[OPEN] Port {port}")
 
             sock.close()
 
         if not open_ports:
-            print(Color.RED + "No common open ports found.")
+            print(Color.RED + "\nNo open ports found.")
+
+        else:
+            print(Color.CYAN + f"\nOpen ports: {open_ports}")
 
         print(Color.RESET)
+
+    except ValueError:
+        print(Color.RED + "Invalid port number!" + Color.RESET)
 
     except socket.gaierror:
         print(Color.RED + "Invalid domain or IP!" + Color.RESET)
