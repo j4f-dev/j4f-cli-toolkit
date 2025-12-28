@@ -23,7 +23,7 @@ This project is designed to help developers understand:
 
 💡 *This is not a hacking tool — it focuses on fundamentals, automation, and CLI skills.*
 
----
+--- 
 
 ## ✨ Features
 
@@ -33,6 +33,7 @@ This project is designed to help developers understand:
 ✔ Beginner friendly, professional grade  
 ✔ Clean code & Git-ready  
 
----
+---## Installation
+pip install -r requirements.txt
 
 ## 📂 Project Structure
