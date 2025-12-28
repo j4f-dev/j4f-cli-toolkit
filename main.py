@@ -1,51 +1,41 @@
-
-from toolkit.system import system_info 
+from toolkit.banner import show_banner
+from toolkit.system import system_info
 from toolkit.network import network_info
 from toolkit.utils import clear_screen, Color, slow_print
 import sys
 
-def show_banner():
-    clear_screen()
-    print(Color.GREEN + Color.BOLD + r"""
- ██████╗ ██╗  ██╗███████╗
- ██╔══██╗██║  ██║██╔════╝
- ██████╔╝███████║█████╗  
- ██╔═══╝ ██╔══██║██╔══╝  
- ██║     ██║  ██║███████╗
- ╚═╝     ╚═╝  ╚═╝╚══════╝
-    """ + Color.RESET)
-
-    slow_print(Color.CYAN + "J4F CLI TOOLKIT — Built by j4f_sohail\n" + Color.RESET)
 
 def main_menu():
     while True:
-        print(Color.GREEN + "[1] System Information")
-        print("[2] Network Information")
+        print(Color.GREEN + "[1] System Info")
+        print("[2] Network Info")
         print("[3] Clear Screen")
-        print("[4] Toolkit Info")
+        print("[4] About Toolkit")
         print("[5] Exit" + Color.RESET)
 
         choice = input(Color.YELLOW + "\nj4f > " + Color.RESET)
 
         if choice == "1":
             system_info()
+
         elif choice == "2":
             network_info()
+
         elif choice == "3":
+            clear_screen()
             show_banner()
+
         elif choice == "4":
-            slow_print(Color.CYAN + "J4F CLI Toolkit | Version 1.0 | Developer: Sohail" + Color.RESET)
+            slow_print(Color.CYAN + "J4F CLI TOOLKIT — Built by Sohail")
+
         elif choice == "5":
-            print(Color.RED + "Exiting J4F Toolkit..." + Color.RESET)
+            print(Color.RED + "Exiting...")
             sys.exit()
+
         else:
-            print(Color.RED + "Invalid option!" + Color.RESET)
-
-
-def run():
-    show_banner()
-    main_menu()
+            print(Color.RED + "Invalid option!")
 
 
 if __name__ == "__main__":
-    run()
+    show_banner()
+    main_menu()
