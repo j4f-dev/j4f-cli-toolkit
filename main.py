@@ -14,7 +14,7 @@ def show_banner():
  ╚═╝     ╚═╝  ╚═╝╚══════╝
     """ + Color.RESET)
 
-    slow_print(Color.CYAN + "J4F CLI TOOLKIT — Built by Sohail\n" + Color.RESET)
+    slow_print(Color.CYAN + "J4F CLI TOOLKIT — Built by j4f_sohail\n" + Color.RESET)
 
 def main_menu():
     while True:
