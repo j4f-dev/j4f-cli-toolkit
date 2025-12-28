@@ -1,147 +1,81 @@
 import socket
+import os
 import subprocess
-from toolkit.utils import Color, slow_print
+from colorama import Fore, Style
 
-
-# ================= IP INFORMATION =================
 def ip_info():
-    print(Color.CYAN + "\n--- IP INFORMATION ---")
+    host = input("Enter domain or IP: ")
     try:
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
+        ip = socket.gethostbyname(host)
+        print(f"\nIP Address: {ip}\n")
     except:
-        hostname = "Unknown"
-        local_ip = "Unknown"
+        print("Invalid domain/IP")
 
-    print(f"Hostname : {hostname}")
-    print(f"Local IP : {local_ip}\n" + Color.RESET)
-
-
-# ================= PING TEST =================
 def ping_test():
-    target = input(Color.YELLOW + "Enter IP / Domain: " + Color.RESET)
+    host = input("Enter IP or domain: ")
+    os.system(f"ping -c 4 {host}")
 
-    print(Color.CYAN + "\nPinging target...\n" + Color.RESET)
-    try:
-        subprocess.run(
-            ["ping", "-c", "4", target],
-            stdout=None,
-            stderr=None
-        )
-    except:
-        print(Color.RED + "Ping failed!" + Color.RESET)
-
-
-# ================= DNS LOOKUP =================
 def dns_lookup():
-    domain = input(Color.YELLOW + "Enter domain: " + Color.RESET)
+    domain = input("Enter domain: ")
     try:
-        ip = socket.gethostbyname(domain)
-        print(Color.GREEN + f"\nDomain : {domain}")
-        print(f"IP     : {ip}\n" + Color.RESET)
+        print(socket.gethostbyname_ex(domain))
     except:
-        print(Color.RED + "DNS lookup failed!\n" + Color.RESET)
+        print("DNS lookup failed")
 
-
-# ================= COMMON PORT SCAN =================
 def common_port_scan():
-    target = input(Color.YELLOW + "Target IP / Domain: " + Color.RESET)
-    common_ports = {
-        21: "FTP",
-        22: "SSH",
-        23: "TELNET",
-        25: "SMTP",
-        53: "DNS",
-        80: "HTTP",
-        110: "POP3",
-        139: "NETBIOS",
-        443: "HTTPS",
-        445: "SMB",
-        8080: "HTTP-ALT"
-    }
+    target = input("Enter IP: ")
+    ports = [21,22,23,25,53,80,110,139,143,443,445,8080]
+    print("\nScanning common ports...\n")
 
-    print(Color.CYAN + f"\nScanning common ports on {target}...\n" + Color.RESET)
-
-    for port, service in common_ports.items():
-        sock = socket.socket()
-        sock.settimeout(0.5)
+    for port in ports:
+        s = socket.socket()
+        s.settimeout(0.5)
         try:
-            sock.connect((target, port))
-            print(Color.GREEN + f"[OPEN] {port} ({service})")
+            s.connect((target, port))
+            print(f"[OPEN] Port {port}")
         except:
             pass
-        finally:
-            sock.close()
+        s.close()
 
-    print(Color.RESET)
-
-
-# ================= ADVANCED PORT SCAN =================
 def advanced_port_scan():
-    target = input(Color.YELLOW + "Target IP / Domain: " + Color.RESET)
+    target = input("Enter IP: ")
+    start = int(input("Start port: "))
+    end = int(input("End port: "))
 
-    try:
-        start_port = int(input("Start Port: "))
-        end_port = int(input("End Port: "))
-    except ValueError:
-        print(Color.RED + "Invalid port range!\n" + Color.RESET)
-        return
+    print(f"\nScanning ports {start}-{end}...\n")
 
-    if start_port < 1 or end_port > 65535 or start_port > end_port:
-        print(Color.RED + "Port range must be 1–65535\n" + Color.RESET)
-        return
-
-    print(Color.CYAN + f"\nScanning ports {start_port}-{end_port} on {target}\n" + Color.RESET)
-
-    open_ports = []
-
-    for port in range(start_port, end_port + 1):
-        sock = socket.socket()
-        sock.settimeout(0.3)
+    for port in range(start, end + 1):
+        s = socket.socket()
+        s.settimeout(0.3)
         try:
-            sock.connect((target, port))
-            open_ports.append(port)
-            print(Color.GREEN + f"[OPEN] Port {port}")
+            s.connect((target, port))
+            print(f"[OPEN] Port {port}")
         except:
             pass
-        finally:
-            sock.close()
+        s.close()
 
-    if not open_ports:
-        print(Color.RED + "\nNo open ports found." + Color.RESET)
-
-    print(Color.RESET)
-
-
-# ================= NETWORK MENU =================
-def network_info():
+def network_menu():
     while True:
-        print(Color.GREEN + "\n[1] IP Information")
+        print(Fore.GREEN + "\n[1] IP Information")
         print("[2] Ping Test")
         print("[3] DNS Lookup")
         print("[4] Port Scan (Common)")
         print("[5] Advanced Port Scan")
-        print("[6] Back" + Color.RESET)
+        print("[6] Back" + Style.RESET_ALL)
 
-        choice = input(Color.YELLOW + "\nnet > " + Color.RESET)
+        choice = input("\nnet > ")
 
         if choice == "1":
             ip_info()
-
         elif choice == "2":
             ping_test()
-
         elif choice == "3":
             dns_lookup()
-
         elif choice == "4":
             common_port_scan()
-
         elif choice == "5":
             advanced_port_scan()
-
         elif choice == "6":
             break
-
         else:
-            print(Color.RED + "Invalid option!\n" + Color.RESET)
+            print("Invalid option")
