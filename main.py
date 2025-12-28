@@ -1,4 +1,5 @@
-from toolkit.system import system_info
+
+from toolkit.system import system_info 
 from toolkit.network import network_info
 from toolkit.utils import clear_screen, Color, slow_print
 import sys
