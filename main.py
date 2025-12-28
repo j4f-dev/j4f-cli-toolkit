@@ -40,6 +40,11 @@ def main_menu():
         else:
             print(Color.RED + "Invalid option!" + Color.RESET)
 
-if __name__ == "__main__":
+
+def run():
     show_banner()
     main_menu()
+
+
+if __name__ == "__main__":
+    run()
