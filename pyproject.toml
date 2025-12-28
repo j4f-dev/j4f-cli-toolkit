@@ -1,20 +1,22 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "j4f-cli-toolkit"
 version = "1.0.0"
-description = "J4F CLI Toolkit - Fast, Clean, Hacker Style"
+description = "J4F CLI Toolkit - System & Network Utility Tool"
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [
-  { name="j4f_sohail" }
+    { name = "j4f_sohail" }
 ]
-
 dependencies = [
-  "colorama"
+    "colorama"
 ]
 
 [project.scripts]
-j4f = "j4f:run"
+j4f = "j4f.__main__:run"
+
+[tool.setuptools]
+packages = ["j4f", "toolkit"]
